@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: consumer
+  labels:
+    app: consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "consumer"
+        dapr.io/app-port: "8080"
+    spec:
+      containers:
+        - name: consumer
+          image: consumer:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://localhost:8080

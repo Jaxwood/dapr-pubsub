@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: publisher
+  labels:
+    app: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "publisher"
+        dapr.io/app-port: "8080"
+    spec:
+      containers:
+        - name: publisher
+          image: publisher:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://localhost:8080
